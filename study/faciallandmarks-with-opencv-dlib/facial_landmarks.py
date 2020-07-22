@@ -10,18 +10,18 @@ import dlib
 import cv2
 
 # 입력된 face landmark detector의 경로와 대상 이미지를 가져옴
-ap = argparse.ArgumentParser()
-ap.add_argument("-p", "--shape-predictor", required=True, help="path to facial landmark predictor")
-ap.add_argument("-i", "--image", required=True, help="path to input image")
-args = vars(ap.parse_args())
+#ap = argparse.ArgumentParser()
+#ap.add_argument("-p", "--shape-predictor", required=True, help="path to facial landmark predictor")
+#ap.add_argument("-i", "--image", required=True, help="path to input image")
+#args = vars(ap.parse_args())
 
 # initialize dlib's face detector (HOG-based)
 # create the facial landmark predictor
 face_detector = dlib.get_frontal_face_detector()
-shape_predictor = dlib.shape_predictor(args["shape_predictor"])
+shape_predictor = dlib.shape_predictor("shape_predictor_68_face_landmarks.dat")
 
 # load image, resize, convert it to grayscale
-image = imutils.resize(cv2.imread(args["image"]), width=500)
+image = imutils.resize(cv2.imread("images/example_01.jpg"), width=500)
 gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
 # detect faces in the grayscale image
