@@ -21,7 +21,7 @@ face_detector = dlib.get_frontal_face_detector()
 shape_predictor = dlib.shape_predictor("shape_predictor_68_face_landmarks.dat")
 
 # load image, resize, convert it to grayscale
-image = imutils.resize(cv2.imread("images/example_01.jpg"), width=500)
+image = imutils.resize(cv2.imread("images/example_05.jpg"), width=500)
 gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
 # detect faces in the grayscale image
@@ -29,10 +29,6 @@ rects = face_detector(gray, 1)
 
 # loop over the face detections, 검출된 얼굴의 갯수만큼 반복
 for (i, rect) in enumerate(rects):
-	# determine the facial landmarks for the face region, then convert
-	# the facial landmark (x, y)-coordinates to a NumPy array
-	shape = shape_predictor(gray, rect)
-	shape = face_utils.shape_to_np(shape)
 
 	# convert dlib's rectangle to a OpenCV-style bounding box
 	# [i.e., (x, y, w, h)], then draw the face bounding box
@@ -42,6 +38,11 @@ for (i, rect) in enumerate(rects):
 	# show the face number
 	cv2.putText(image, "Face #{}".format(i + 1), (x - 10, y - 10),
 		cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
+
+	# determine the facial landmarks for the face region, then convert
+	# the facial landmark (x, y)-coordinates to a NumPy array
+	shape = shape_predictor(gray, rect)
+	shape = face_utils.shape_to_np(shape)
 
 	# loop over the (x, y)-coordinates for the facial landmarks
 	# and draw them on the image
