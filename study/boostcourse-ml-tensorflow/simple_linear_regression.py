@@ -22,7 +22,9 @@ for i in range(epoch+1):
     with tf.GradientTape() as tape:
         hypothesis = W * x_data + b
         cost = tf.reduce_mean(tf.square(hypothesis - y_data))
-    # tape.gradeint 기록된 연산의 "그래디언트"를 계산
+        # print("{} : {}".format(i, hypothesis))
+        # 0 : [ 3.4       6.3       9.200001 12.1      15.      ]
+    # tape.gradient 기록된 연산의 "그래디언트"를 계산
     W_grad, b_grad = tape.gradient(cost, [W,b])
 
     # 업데이트 : 그래디언트가 0이 되도록
