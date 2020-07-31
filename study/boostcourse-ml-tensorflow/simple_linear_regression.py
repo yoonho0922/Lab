@@ -17,7 +17,8 @@ epoch = 100
 
 # 학습
 for i in range(epoch+1):
-    # GradeintTape : tape에 context 안에서 실행된 모든 연산을 tape에 "기록"
+    # GradeintTape : tape에 context 안에서 실행된 모든 연산을 tape에 "기록"하여
+    # 그래디언트를 구할 수 있게 해줌
     with tf.GradientTape() as tape:
         hypothesis = W * x_data + b
         cost = tf.reduce_mean(tf.square(hypothesis - y_data))
