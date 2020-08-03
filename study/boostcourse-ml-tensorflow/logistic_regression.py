@@ -18,22 +18,25 @@ plt.xlabel("x1")
 plt.ylabel("x2")
 #plt.show()
 
+# x_train : 1 * 2
 dataset = tf.data.Dataset.from_tensor_slices((x_train, y_train))
 
+# W : 2 * 1, b : 1 * 1
 W = tf.Variable(tf.zeros([2, 1]), name='weight')
 b = tf.Variable(tf.zeros([1]), name='bias')
 
-# sigmoid function
+# == sigmoid 함수
 def logistic_regression(features):
-    #hypothesis = tf.divide(1., 1. + tf.exp(-tf.matmul(features, W) + b))
+    # == tf.divide(1., 1. + tf.exp(-tf.matmul(features, W) + b))
     hypothesis = tf.sigmoid(tf.matmul(features, W) + b)
     return hypothesis
 
-# cost function
+# cost 함수
 def loss_fn(hypothesis, labels):
     cost = -tf.reduce_mean(labels * tf.math.log(hypothesis) + (1 - labels) * tf.math.log(1 - hypothesis))
     return cost
 
+# 판단 함수
 def accuracy_fn(hypothesis, labels):
     predicted = tf.cast(hypothesis > 0.5, dtype=tf.float32)
     accuracy = tf.reduce_mean(tf.cast(tf.equal(predicted, labels), dtype=tf.int32))
@@ -47,11 +50,12 @@ def grad(features, labels):
 
 optimizer = tf.keras.optimizers.SGD(learning_rate=0.001)
 
-EPOCHS = 1001
-for step in range(EPOCHS):
+EPOCHS = 1000
+for step in range(EPOCHS+1):
     for features, labels in iter(dataset.batch(len(x_train))):
         hypothesis = logistic_regression(features)
         grads = grad(features, labels)
+
         optimizer.apply_gradients(grads_and_vars=zip(grads, [W, b]))
         if step % 100 == 0:
             print("Iter: {}, Loss: {:.4f}".format(step, loss_fn(hypothesis, labels)))
